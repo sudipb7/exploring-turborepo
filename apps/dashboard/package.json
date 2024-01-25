@@ -1,7 +1,8 @@
 {
-  "name": "docs",
+  "name": "dashboard",
   "version": "1.0.0",
   "private": true,
+  "description": "Dashboard for the ecommerce app built with Next.js",
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "next build",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "@repo/ui": "*",
+    "@repo/db": "*",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

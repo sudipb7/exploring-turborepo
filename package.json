@@ -1,11 +1,25 @@
 {
   "name": "project-using-turborepo",
   "private": true,
+  "license": "MIT",
+  "description": "A project using TurboRepo to manage multiple apps and packages",
+  "author": {
+    "name": "Sudip Biswas",
+    "email": "sudipbiswas2142@gmail.com",
+    "url": "https://www.sudipbiswas.me"
+  },
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build": "turbo build",
+    "build:dashboard": "dotenv -- turbo build --scope=dashboard",
+    "build:www": "dotenv -- turbo build --scope=www",
+    "dev": "turbo dev",
+    "dev:www": "dotenv -- turbo dev --scope=www",
+    "dev:dashboard": "dotenv -- turbo dev --scope=dashboard",
+    "db:push": "dotenv -- turbo db:push",
+    "db:generate": "turbo db:generate",
+    "db:studio": "turbo db:studio"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -20,5 +34,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "dotenv-cli": "^7.3.0"
+  }
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@repo/db",
+  "description": "Database layer for this monorepo",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "prisma": "^5.8.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.1"
+  }
+}

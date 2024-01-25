@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalEnv": ["DATABASE_URL", "NODE_ENV"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -12,6 +12,19 @@
     "dev": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "dev:dashboard": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:www": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:generate": {
+      "dependsOn": ["^db:generate"]
+    },
+    "db:push": {},
+    "db:studio": {}
   }
 }

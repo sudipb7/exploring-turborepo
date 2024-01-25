@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String? // Incase of OAuth login it is optional
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String? // Incase of OAuth login it is optional
+  imageUrl String?
+
+  wishList Wishlist?
+  orders   Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
+  products Product[]
+  orders   Order[]
+
+  billboardId String    @db.ObjectId
+  billboard   Billboard @relation(fields: [billboardId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([billboardId])
+}
+
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum Color {
+  Red
+  Blue
+  Green
+  Yellow
+  Black
+  White
+  Orange
+  Purple
+  Pink
+  Brown
+  Gray
+  Silver
+  Gold
+  Beige
+  Maroon
+  Olive
+  Turquoise
+  Navy
+  Teal
+  Indigo
+  Violet
+  Khaki
+}
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  images      String[]
+  price       Int
+  stock       Int      @default(10)
+  isFeatured  Boolean  @default(false)
+  isArchived  Boolean  @default(false)
+  color       Color
+  size        Size
+
+  orderItems OrderItem[]
+
+  wishlistIds String[]   @db.ObjectId
+  wishlists   Wishlist[] @relation(fields: [wishlistIds], references: [id])
+
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model Wishlist {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  productIds String[]  @db.ObjectId
+  products   Product[] @relation(fields: [productIds], references: [id])
+
+  userId String? @unique @db.ObjectId
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Billboard {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  label    String
+  imageUrl String?
+
+  categories Category[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  phone       String
+  address     String
+  isPaid      Boolean @default(false)
+  isDelivered Boolean @default(false)
+
+  orderItems OrderItem[]
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([userId])
+}
+
+model OrderItem {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  orderId String @db.ObjectId
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([orderId])
+}
