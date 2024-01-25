@@ -11,10 +11,10 @@
   "scripts": {
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build": "turbo build",
+    "build": "dotenv -- turbo build",
     "build:dashboard": "dotenv -- turbo build --scope=dashboard",
     "build:www": "dotenv -- turbo build --scope=www",
-    "dev": "turbo dev",
+    "dev": "dotenv -- turbo dev",
     "dev:www": "dotenv -- turbo dev --scope=www",
     "dev:dashboard": "dotenv -- turbo dev --scope=dashboard",
     "db:push": "dotenv -- turbo db:push",
